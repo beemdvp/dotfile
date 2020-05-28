@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/beem/.config/nvim'
+let g:netrw_dirhist_0='/home/beem/.config'
+let g:netrw_dirhist_9='/home/beem'
+let g:netrw_dirhist_8='/home/beem/.config'
+let g:netrw_dirhist_7='/home/beem/.config/nvim'
+let g:netrw_dirhist_6='/home/beem/Projects/beemstream/beemstream-main/packages/twitch-service/src/route'
+let g:netrw_dirhist_5='/home/beem/Projects/beemstream/beemstream-main/packages/twitch-service/src'
+let g:netrw_dirhist_4='/home/beem/Projects/beemstream/beemstream-main/packages/twitch-service/src/route'
+let g:netrw_dirhist_3='/home/beem/Projects/beemstream/beemstream-main/packages/twitch-service'
+let g:netrw_dirhist_2='/home/beem'
