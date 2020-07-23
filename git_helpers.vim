@@ -22,12 +22,15 @@ function! CommitQF(...)
 endfunction
 
 function! CommitMessage(...)
-  if 'feature/' =~ FugitiveHead()
-    let a = join([split(split(FugitiveHead(), 'feature/')[0], '-')[0], split(split(FugitiveHead(), 'feature/')[0], '-')[1]], '-')
+  let task_type = split(FugitiveHead(), '/')[0]
+  if task_type =~ 'feat' || task_type =~ 'chore' || task_type =~ 'fix'
+    let a = GetJiraIssue(task_type . "/")
     execute "Gcommit -m \"" . a . " - " . a:1 . "\""
   else 
     execute "Gcommit -m \"" . a:1 . "\""
   endif
 endfunction
 
-
+function! GetJiraIssue(task_type)
+    return join([split(split(FugitiveHead(), a:task_type)[0], '-')[0], split(split(FugitiveHead(), a:task_type)[0], '-')[1]], '-')
+endfunction
