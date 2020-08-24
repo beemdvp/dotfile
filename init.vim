@@ -6,7 +6,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'KKPMW/oldbook-vim'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh', 'for': [ 'typescript', 'javascript' ]}
+  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
   Plug 'joukevandermaas/vim-ember-hbs', {'for': 'handlebars'}
   Plug 'jiangmiao/auto-pairs'
   Plug 'tpope/vim-surround'
@@ -19,6 +19,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'idanarye/vim-merginal'
   Plug 'cdata/vim-tagged-template'
   Plug 'sheerun/vim-polyglot'
+  Plug 'samoshkin/vim-mergetool'
 call plug#end()
 
 runtime ./vim_settings.vim
@@ -32,8 +33,13 @@ function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
   copen
   cc
-
 endfunction
+
+function! g:FormatJson()
+    execute '%!python -m json.tool'
+    execute 'set ft=json'
+endfunction
+
 let g:fzf_action = {
   \ 'ctrl-q': function('s:build_quickfix_list'),
   \ 'ctrl-t': 'tab split',
@@ -41,6 +47,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
-let g:netrw_localrmdir='rm -r'
+" let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+" let g:netrw_localrmdir='rm -r'
+let g:netrw_rmdir_cmd='rm -r'
 let g:ackprg = 'ag --nogroup --nocolor --column --vimgrep'

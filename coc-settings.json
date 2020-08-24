@@ -11,6 +11,11 @@
       "initializationOptions": {
         "cacheDirectory": "/tmp/cquery"
       }
+    },
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["terraform"],
+      "initializationOptions": {}
     }
   }
 }

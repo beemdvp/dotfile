@@ -1,7 +1,7 @@
 let mapleader = ","
 nnoremap j gj
 nnoremap k gk
-noremap <Leader>of :FZF<cr>
+noremap <Leader>of :GFiles<cr>
 noremap <Leader>fif :Ack -Q ''<left>
 noremap <Leader>y "+y
 noremap <Leader>p "+p
@@ -27,8 +27,8 @@ noremap <Leader>gs :Gstatus<cr>
 noremap <Leader>gp :Gpush -f<cr>
 " git pull
 noremap <Leader>gu :Gpull<cr>
-" git add file
-noremap <Leader>ga :Git add %<cr>
+" git add tracked file
+noremap <Leader>ga :Git add -u<cr>
 " git add all
 noremap <Leader>gA :Git add .<cr>
 " git list branches
@@ -44,13 +44,36 @@ noremap q/ :History/<cr>
 noremap <Leader>gC 02f/wy$:Git checkout <c-r>"<cr>
 noremap <Leader>nt :tab new<cr>:terminal<cr>A
 noremap <Leader>gpn 4Gwy$:!<c-r>"<cr>
-nmap <silent> gd <Plug>(coc-definition) zt
+nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 tnoremap <Esc> <C-\><C-n>
+tnoremap <Leader>tc :call ClearTerminal()<cr>
 nnoremap <Leader>gd :call CommitQF()<cr> :copen<cr>
 nnoremap / /\V
 nmap <silent> ga <Plug>(coc-codeaction)
 nnoremap <Leader>tw :set nowrap!<cr>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <Leader>w :w<cr>
+nmap <leader>mt <plug>(MergetoolToggle)
 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+function! ClearTerminal()
+  set scrollback=1
+  let &g:scrollback=1
+  echo &scrollback
+  call feedkeys("\i")
+  call feedkeys("clear\<CR>")
+  call feedkeys("\<C-\>\<C-n>")
+  call feedkeys("\i")
+  sleep 100m
+  let &scrollback=s:scroll_value
+endfunction

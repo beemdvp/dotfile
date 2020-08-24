@@ -44,7 +44,7 @@ augroup ConfigGroup
   autocmd BufRead,BufNewFile *.ts setfiletype typescript.html.scss
   autocmd FileType typescript noremap <Leader>tsi :TSImport<cr>
   autocmd FileType javascript noremap <Leader>tsi :TSImport<cr>
-  autocmd FileType typescript call EnableInlineHtmlSyntaxHighlightingForTypescript()
-  autocmd FileType typescript call EnableCSS()
+  " autocmd FileType typescript call EnableInlineHtmlSyntaxHighlightingForTypescript()
+  " autocmd FileType typescript call EnableCSS()
 augroup END
 
