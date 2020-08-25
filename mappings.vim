@@ -57,6 +57,7 @@ nnoremap <Leader>tw :set nowrap!<cr>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <Leader>w :w<cr>
 nmap <leader>mt <plug>(MergetoolToggle)
+nmap <leader>a v<Plug>(coc-codeaction-selected)
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
