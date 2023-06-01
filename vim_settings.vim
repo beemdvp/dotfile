@@ -11,14 +11,14 @@ set statusline+=\ %l:%c
 set nowrap
 set autoread
 set formatoptions=tcqrn1
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set noshiftround
 set relativenumber
 set number
-set clipboard=unnamedplus
+set clipboard=unnamed
 set list
 set noswapfile
 set undodir=~/.vim/undo-dir
@@ -34,4 +34,4 @@ colorscheme onedark
 set sidescroll=40
 set shell=/bin/zsh
 set autoindent
-
+set mouse=a

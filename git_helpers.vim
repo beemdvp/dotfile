@@ -25,9 +25,9 @@ function! CommitMessage(...)
   let task_type = split(FugitiveHead(), '/')[0]
   if task_type =~ 'feat' || task_type =~ 'chore' || task_type =~ 'fix'
     let a = GetJiraIssue(task_type . "/")
-    execute "Gcommit -m \"" . a . " - " . a:1 . "\""
+    execute "Git commit -m \"" . a . " - " . a:1 . "\""
   else 
-    execute "Gcommit -m \"" . a:1 . "\""
+    execute "Git commit -m \"" . a:1 . "\""
   endif
 endfunction
 

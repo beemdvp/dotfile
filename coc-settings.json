@@ -16,6 +16,31 @@
       "command": "terraform-lsp",
       "filetypes": ["terraform"],
       "initializationOptions": {}
+    },
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": [
+        "elm"
+      ],
+      "rootPatterns": [
+        "elm.json"
+      ],
+      "trace.server": "verbose",
+      "initializationOptions": {
+        "elmPath": "elm",
+        "elmFormatPath": "elm-format",
+        "elmTestPath": "elm-test",
+        "disableElmLSDiagnostics": false,
+        "skipInstallPackageConfirmation": false
+      }
     }
-  }
+  },
+  "rust-analyzer.updates.channel": "stable",
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+  "rust-analyzer.checkOnSave.target": [],
+  "rust-analyzer.procMacro.enable": true,
+  "angular.enable-strict-mode-prompt": false,
+  "tailwindCSS.headwind.sortTailwindClasses": false,
+  "tailwindCSS.headwind.runOnSave": false,
+  "snippets.ultisnips.pythonPrompt": false,
 }
