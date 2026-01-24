@@ -18,7 +18,7 @@ set expandtab
 set noshiftround
 set relativenumber
 set number
-set clipboard=unnamed
+set clipboard+=unnamedplus
 set list
 set noswapfile
 set undodir=~/.vim/undo-dir
@@ -29,7 +29,7 @@ set nopaste
 set inccommand=nosplit
 set diffopt+=iwhite
 set splitright
-colorscheme onedark
+colorscheme tokyonight-night
 " set backupcopy=yes
 set sidescroll=40
 set shell=/bin/zsh

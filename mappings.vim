@@ -2,6 +2,7 @@ let mapleader = ","
 nnoremap j gj
 nnoremap k gk
 noremap <Leader>of :GFiles<cr>
+" noremap <Leader>of :Files <C-R>=expand('%:h')<CR><CR>
 noremap <Leader>fif :Ack -Q ''<left>
 noremap <Leader>y "+y
 noremap <Leader>p "+p
@@ -57,6 +58,8 @@ nnoremap / /\V
 nnoremap <Leader>tw :set nowrap!<cr>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <Leader>w :w<cr>
+nnoremap <Leader>tn :TestNearest<cr>
+nnoremap <Leader>ta :TestSuite<cr>
 nmap <leader>mt <plug>(MergetoolToggle)
 " xmap <leader>a  <Plug>(coc-codeaction-selected)
 " nmap <leader>a  <Plug>(coc-codeaction-selected)
