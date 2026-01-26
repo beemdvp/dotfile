@@ -1,0 +1,16 @@
+[Unit]
+Description=Run workspace.sh to move apps to workspace 2
+After=graphical-session.target
+StartLimitIntervalSec=20
+StartLimitBurst=10
+
+[Service]
+Type=simple
+ExecStart=/home/beem/workspace.sh
+User=beem
+TimeoutSec=30
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
