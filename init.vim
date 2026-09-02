@@ -42,8 +42,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
 
-  Plug 'codota/tabnine-nvim', { 'do': './dl_binaries.sh' }
-  Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+  " Plug 'codota/tabnine-nvim', { 'do': './dl_binaries.sh' }
+  " Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
   Plug 'tyru/open-browser.vim'
   Plug 'weirongxu/plantuml-previewer.vim'
@@ -53,7 +53,6 @@ call plug#begin('~/.vim/plugged')
 "     \ }
   " Plug 'dart-lang/dart-vim-plugin'
   " Plug 'reisub0/hot-reload.vim'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'vim-test/vim-test'
   Plug 'akinsho/flutter-tools.nvim'
   Plug 'evanleck/vim-svelte'
@@ -91,6 +90,7 @@ let g:vim_svelte_plugin_load_full_syntax = 1
 " autocmd! User avante.nvim
 
 lua <<EOF
+vim.o.exrc = true
 vim.o.background = "dark"
 -- require('tabnine').setup({
 --   disable_auto_comment=true,
@@ -102,13 +102,14 @@ vim.o.background = "dark"
 --   log_file_path = nil, -- absolute path to Tabnine log file
 -- })
 
-require('img-clip').setup()
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = { "*.js", "*.ts", "*.jsx", "*.tsx", "*.css", "*.json", "*.md" },
+--   callback = function()
+--     vim.lsp.buf.format({ async = false })
+--   end,
+-- })
 
-require('nvim-treesitter.configs').setup({
-  highlight = {
-    enable = true
-  }
-})
+require('img-clip').setup()
 
 require('render-markdown').setup({
   file_types = { "markdown", "Avante", "AvanteInput" },
@@ -117,11 +118,11 @@ require('render-markdown').setup({
   }
 })
 
-local chat_llm_model = "ministral-3:14b"
+local chat_llm_model = "qwen3.5:9b"
 
 require('avante').setup({
   provider = "ollama",
-  mode = "legacy",
+  mode = "agentic",
   -- auto_suggestions_provider = "ollama",
   input = {
     provider = "dressing"
@@ -132,7 +133,7 @@ require('avante').setup({
       is_env_set = function()
         return true
       end,
-      disable_tools = true,
+      -- disable_tools = true,
       use_ReAct_prompt = true,
       extra_request_body = {
         keep_alive = "24h",
@@ -140,9 +141,9 @@ require('avante').setup({
       }
     }
   },
-  behaviour = {
-    auto_approve_tool_permissions = false, -- Default: auto-approve all tools (no prompts)
-  },
+  -- behaviour = {
+  --   auto_approve_tool_permissions = false, -- Default: auto-approve all tools (no prompts)
+  -- },
   -- rag_service = { -- RAG service configuration
   --   enabled = true,
   --   host_mount = "/home/beem", -- Host mount path for the RAG service (Docker will mount this path)
@@ -249,6 +250,36 @@ local code_completion_llm_model = 'qwen2.5-coder:7b'
 require("mason").setup()
 require("mason-lspconfig").setup()
 
+-- Fix biome LSP root_dir: default prioritizes lock files, picking
+-- subdirectories in monorepos. Use .git as primary marker instead.
+vim.lsp.config("biome", {
+  cmd = { "biome", "lsp-proxy" },
+  filetypes = {
+    "astro", "css", "graphql", "html",
+    "javascript", "javascriptreact",
+    "json", "jsonc",
+    "svelte", "typescript", "typescriptreact", "vue",
+  },
+  workspace_required = true,
+  root_dir = function(bufnr, on_dir)
+    local project_root = vim.fs.root(bufnr, { ".git" })
+    if not project_root then
+      return
+    end
+    local filename = vim.api.nvim_buf_get_name(bufnr)
+    local biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
+      path = filename,
+      type = "file",
+      limit = 1,
+      upward = true,
+      stop = vim.fs.dirname(project_root),
+    })[1]
+    if biome_config then
+      on_dir(project_root)
+    end
+  end,
+})
+
 -- local tabnine = require('cmp_tabnine.config')
 -- 
 -- tabnine:setup({
@@ -289,39 +320,6 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set('x', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   vim.keymap.set('n', '<leader>s', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 end)
-
--- " (Optional) Configure lua language server for neovim
-local lspconfig = require('lspconfig')
-local configs = require('lspconfig.configs')
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
--- lspconfig.pyright.setup {
---   capabilities = capabilities
--- }
--- lspconfig.solargraph.setup{
---   capabilities = capabilities
--- }
--- lspconfig.standardrb.setup{
---   capabilities = capabilities
--- }
-if not configs.move_analyzer then
-  configs.move_analyzer = {
-    default_config = {
-      cmd = { os.getenv("HOME") .. "/.cargo/bin/aptos-language-server", "lsp-server" },
-      filetypes = { 'move' },
-      on_attach = on_attach,
-      capabilities = capabilities,
-      root_dir = function(fname)
-        return lspconfig.util.root_pattern("Move.toml", ".git")(fname)
-      end,
-      settings = {},
-    },
-  }
-end
-
--- lspconfig.move_analyzer.setup{
---   capabilities = capabilities,
--- }
 
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()

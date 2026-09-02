@@ -30,6 +30,11 @@ set inccommand=nosplit
 set diffopt+=iwhite
 set splitright
 colorscheme tokyonight-night
+autocmd VimEnter * highlight Normal guibg=NONE ctermbg=NONE
+autocmd VimEnter * highlight NormalNC guibg=NONE ctermbg=NONE
+autocmd VimEnter * highlight NormalFloat guibg=NONE ctermbg=NONE
+autocmd VimEnter * highlight SignColumn guibg=NONE ctermbg=NONE
+autocmd VimEnter * highlight EndOfBuffer guibg=NONE ctermbg=NONE
 " set backupcopy=yes
 set sidescroll=40
 set shell=/bin/zsh
